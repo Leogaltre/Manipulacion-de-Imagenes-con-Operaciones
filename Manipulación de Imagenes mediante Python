@@ -1,0 +1,245 @@
+'''
+Conocer el tamaño de las imagenes
+Manipulación de Tamaño Bruto de Imagenes
+Manipulación de Tamaño Proporcional de Imagenes
+COncatenación de Imagenes
+Transformaciones de BGR a RGB
+'''
+import numpy as np
+from matplotlib import pyplot as plt
+import cv2 #Opencv
+import math
+
+img1 = cv2.imread('Ave1.png')
+img2 = cv2.imread('Ave2.png')
+
+#De matriz BGR a RGB
+img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
+img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+
+#Tamaño y Canales
+(alto1, ancho1, canales1) = img1.shape
+print('Alto={}, Ancho={}, Canales={}'.format(alto1, ancho1, canales1))
+(alto2, ancho2, canales2) = img2.shape
+print('Alto={}, Ancho={}, Canales={}'.format(alto2, ancho2, canales2))
+#Dimencionamiento en bruto
+Redimg1 = cv2.resize(img1, (620,620))
+Redimg2 = cv2.resize(img2, (620,620))
+
+#De matriz BGR a RGB "Genio!!"
+Redimg1 = cv2.cvtColor(Redimg1, cv2.COLOR_BGR2RGB)
+Redimg2 = cv2.cvtColor(Redimg2, cv2.COLOR_BGR2RGB)
+
+#Concatenamiento de la Primera imagen a la Segunda imagen
+combinado1 = np.concatenate((Redimg1, Redimg2), axis=1)  #Concatenar
+#De matriz BGR a RGB "Genio!!"
+combinado1 = cv2.cvtColor(combinado1, cv2.COLOR_BGR2RGB)
+#Mostrar Imagen combinada
+plt.imshow(combinado1)
+plt.axis('off')
+plt.show()
+
+# >>>>>>>>>>>>>>>>>>>>>>> SUMA <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#Suma 1
+suma = cv2.add(Redimg1,Redimg2) #Redimg1+Redimg2
+combinado2 = np.concatenate((Redimg1, suma, Redimg2), axis=1)
+combinado2 = cv2.cvtColor(combinado2, cv2.COLOR_BGR2RGB)
+
+#Suma 2
+suma1 = Redimg1+Redimg2
+combinado20 = np.concatenate((Redimg1, suma1, Redimg2), axis=1)
+combinado20 = cv2.cvtColor(combinado20, cv2.COLOR_BGR2RGB)
+
+#Suma 3
+suma = cv2.addWeighted(Redimg1,0.5,Redimg2,0.5,0) #Redimg1+Redimg2
+combinado200 = np.concatenate((Redimg1, suma, Redimg2), axis=1)
+combinado200 = cv2.cvtColor(combinado200, cv2.COLOR_BGR2RGB)
+
+# >>>>>>>>>>>>>>>>>>>>>>> Resta <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+#Resta 1
+resta = cv2.subtract(Redimg1,Redimg2)
+combinado3 = np.concatenate((Redimg1, resta, Redimg2), axis=1)
+combinado3 = cv2.cvtColor(combinado3, cv2.COLOR_BGR2RGB)
+
+#Resta 2
+resta1 = Redimg1-Redimg2
+combinado30 = np.concatenate((Redimg1, resta1, Redimg2), axis=1)
+combinado30 = cv2.cvtColor(combinado30, cv2.COLOR_BGR2RGB)
+
+#Resta 3
+resta = cv2.absdiff(Redimg1,Redimg2)
+combinado300 = np.concatenate((Redimg1, resta, Redimg2), axis=1)
+combinado300 = cv2.cvtColor(combinado300, cv2.COLOR_BGR2RGB)
+
+# >>>>>>>>>>>>>>>>>>>>>>> Multiplicacion <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+#Multiplicacion 1
+multiplicacion = cv2.multiply(Redimg1,Redimg2)
+combinado4 = np.concatenate((Redimg1, multiplicacion, Redimg2), axis=1)
+combinado4 = cv2.cvtColor(combinado4, cv2.COLOR_BGR2RGB)
+
+
+#Multiplicacion 2
+multiplicacion1 = Redimg1*Redimg2
+combinado40 = np.concatenate((Redimg1, multiplicacion1, Redimg2), axis=1)
+combinado40 = cv2.cvtColor(combinado40, cv2.COLOR_BGR2RGB)
+
+# >>>>>>>>>>>>>>>>>>>>>>> Division <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+#Division 1
+division = cv2.divide(Redimg1,Redimg2)
+combinado5 = np.concatenate((Redimg1, division, Redimg2), axis=1)
+combinado5 = cv2.cvtColor(combinado5, cv2.COLOR_BGR2RGB)
+
+#Division 2
+#division1 = Redimg1/Redimg2
+#combinado50 = np.concatenate((Redimg1, division1, Redimg2), axis=1)
+#combinado50 = cv2.cvtColor(combinado50, cv2.COLOR_BGR2RGB)
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> Derivada <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#Derivada
+derivada = cv2.Laplacian(Redimg1, cv2.CV_32F)
+combinado6 = np.concatenate((Redimg1, derivada, Redimg2), axis=1)
+combinado6 = cv2.cvtColor(combinado6, cv2.COLOR_BGR2RGB)
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> Potencia <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#Potencia
+potencia = np.zeros(Redimg1.shape, Redimg1.dtype)
+g = 0.5
+c = 1
+potencia = c * np.power(Redimg1, g)
+maxi1 = np.amax(potencia)
+potencia = np.uint8(potencia / maxi1 * 255)
+combinado7 = np.concatenate((Redimg1, potencia, Redimg2), axis=1)
+combinado7 = cv2.cvtColor(combinado7, cv2.COLOR_BGR2RGB)
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>> Logaritmo <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#Logaritmo
+logaritmo = np.zeros(Redimg1.shape, Redimg1.dtype)
+c = 1
+logaritmo = c * np.log(1 + Redimg1)
+maxi = np.amax(logaritmo)
+logaritmo = np.uint8(logaritmo / maxi * 255)
+combinado8 = np.concatenate((Redimg1, potencia, Redimg2), axis=1)
+combinado8 = cv2.cvtColor(combinado8, cv2.COLOR_BGR2RGB)
+
+# >>>>>>>>>>>>>>>>>>>>>>>>> BGR a RGB <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+#De matriz BGR a RGB "Aun más Genio!!"
+combinado2 = cv2.cvtColor(combinado2, cv2.COLOR_BGR2RGB)
+combinado3 = cv2.cvtColor(combinado3, cv2.COLOR_BGR2RGB)
+combinado4 = cv2.cvtColor(combinado4, cv2.COLOR_BGR2RGB)
+combinado5 = cv2.cvtColor(combinado5, cv2.COLOR_BGR2RGB)
+combinado6 = cv2.cvtColor(combinado6, cv2.COLOR_BGR2RGB)
+combinado7 = cv2.cvtColor(combinado7, cv2.COLOR_BGR2RGB)
+combinado8 = cv2.cvtColor(combinado8, cv2.COLOR_BGR2RGB)
+
+#De matriz BGR a RGB "Aun más Genio!!"
+combinado20 = cv2.cvtColor(combinado20, cv2.COLOR_BGR2RGB)
+combinado30 = cv2.cvtColor(combinado30, cv2.COLOR_BGR2RGB)
+combinado40 = cv2.cvtColor(combinado40, cv2.COLOR_BGR2RGB)
+
+#De matriz BGR a RGB "Aun más Genio!!"
+combinado200 = cv2.cvtColor(combinado200, cv2.COLOR_BGR2RGB)
+combinado300 = cv2.cvtColor(combinado300, cv2.COLOR_BGR2RGB)
+
+actSig = 0
+actSig1 = 0
+
+print('Metodologias')
+print('1) Con Funcion directa')
+print('2) Con Operacion directa')
+print('3) Con Otra Metodologia')
+actSig = int(input('Tu eleccion es: '))
+
+if actSig == 1:
+    print('Opciones de Operaciones resultantes de las imagenes')
+    print('1) Suma')
+    print('2) Resta')
+    print('3) Multiplicacion')
+    print('4) Division')
+    print('5) Derivada')
+    print('6) Potencia')
+    print('7) Logaritmo Natural')
+    actSig1 = int(input('Tu eleccion es: '))
+
+    if actSig1 == 1:
+        print('Genial te lo muestro!')
+        print('Operación Suma')
+        cv2.imshow('combinado2', combinado2)
+    elif actSig1 == 2:
+        print('Genial te lo muestro!')
+        print('Operación Resta')
+        cv2.imshow('combinado2', combinado3)
+    elif actSig1 == 3:
+        print('Genial te lo muestro!')
+        print('Operación Multiplicacion')
+        cv2.imshow('combinado2', combinado4)
+    elif actSig1 == 4:
+        print('Genial te lo muestro!')
+        print('Operación Division')
+        cv2.imshow('combinado2', combinado5)
+    elif actSig1 == 5:
+        print('Genial te lo muestro!')
+        print('Operación Derivada')
+        cv2.imshow('combinado2', combinado6)
+    elif actSig1 == 6:
+        print('Genial te lo muestro!')
+        print('Operación Potencia')
+        cv2.imshow('combinado2', combinado7)
+    elif actSig1 == 7:
+        print('Genial te lo muestro!')
+        print('Operación Logaritmo')
+        cv2.imshow('combinado2', combinado8)
+    else:
+        print('Lo siento esa opción no exite')
+        #print('Operación Resta')
+        #cv2.imshow('Redimg1', resta)
+
+elif actSig == 2:
+    print('Opciones de Operaciones resultantes de las imagenes')
+    print('1) Suma')
+    print('2) Resta')
+    print('3) Multiplicacion')
+    actSig1 = int(input('Tu eleccion es: '))
+    if actSig1 == 1:
+        print('Genial te lo muestro!')
+        print('Operación Suma')
+        cv2.imshow('combinado2', combinado20)
+    elif actSig1 == 2:
+        print('Genial te lo muestro!')
+        print('Operación Resta')
+        cv2.imshow('combinado2', combinado30)
+    elif actSig1 == 3:
+        print('Genial te lo muestro!')
+        print('Operación Multiplicacion')
+        cv2.imshow('combinado2', combinado40)
+    else:
+        print('Lo siento esa opción no exite')
+        #print('Operación Resta')
+        #cv2.imshow('Redimg1', resta)
+
+elif actSig == 3:
+    print('Opciones de Operaciones resultantes de las imagenes')
+    print('1) Suma')
+    print('2) Resta')
+    actSig1 = int(input('Tu eleccion es: '))
+    if actSig1 == 1:
+        print('Genial te lo muestro!')
+        print('Operación Suma')
+        cv2.imshow('combinado2', combinado200)
+    elif actSig1 == 2:
+        print('Genial te lo muestro!')
+        print('Operación Resta')
+        cv2.imshow('combinado2', combinado300)
+    else:
+        print('Lo siento esa opción no exite')
+        # print('Operación Resta')
+        # cv2.imshow('Redimg1', resta)
+else:
+    print('Esa opcion no se encuentra, lo siento')
+
+#Siempre Finalizar en
+cv2.waitKey(0) #Retardo
+cv2.destroyAllWindows()
